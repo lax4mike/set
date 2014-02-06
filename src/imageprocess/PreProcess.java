@@ -64,7 +64,9 @@ public class PreProcess {
 		Highgui.imwrite("all-green-2threshold.jpg", source1);
 		
 		Imgproc.findContours(source1, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-		Highgui.imwrite("all-green-3contours.jpg", source1);
+		Imgproc.threshold(source1, source2, 1, 255, Imgproc.THRESH_BINARY);
+		
+		Highgui.imwrite("all-green-3contours.jpg", source2);
 		
 		System.out.println("preProcessIt done.");
 		
