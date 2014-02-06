@@ -1,13 +1,28 @@
 package set;
 
+import imageprocess.CardFinder;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import javax.swing.JFrame;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
+import org.opencv.imgproc.Imgproc;
 
 
 public class SetFinder {
 
 	ArrayList<Card> cards;
+	
+	BufferedImage image; 
 
 	public SetFinder (ArrayList<Card> cards) {
 		this.cards = cards;
@@ -17,7 +32,6 @@ public class SetFinder {
 		
 		Collection<ThreeCards> foundSets = new LinkedList<ThreeCards>();
 		
-
 		for(ThreeCards tc : this.getCombos()) {
 			
 			if (tc.isSet()){
@@ -25,10 +39,18 @@ public class SetFinder {
 			}
 			
 		}
-		
+		return foundSets;		
+	}
+	
+	
 
-		return foundSets;
+	
+	public void findSetsInImage() {
 		
+		CardFinder cf = new CardFinder();
+		
+		cf.run();
+
 	}
 	
 	// n choose 3.  (get all combinations of 3 cards in this.cards without repeats)
@@ -82,6 +104,9 @@ public class SetFinder {
 
 		return combos;
 	}	
+	
+	
+
 	
 	
 }

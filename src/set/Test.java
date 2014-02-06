@@ -45,15 +45,18 @@ public class Test {
 		
 		SetFinder sf = new SetFinder(cards);
 		
-		Collection<ThreeCards> sets = sf.findSets();
+//		Collection<ThreeCards> sets = sf.findSets();
+//		
+//		for (ThreeCards set : sets){
+//			System.out.println(set);
+//		}
+
+
+		sf.findSetsInImage();
 		
-		for (ThreeCards set : sets){
-			System.out.println(set);
-		}
-
-
 		
 	}
+	
 	
 	
 }
