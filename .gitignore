@@ -1,1 +1,3 @@
-/bin
+/image-processing/bin
+/node_modules
+/dist

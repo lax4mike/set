@@ -104,39 +104,53 @@ public class PreProcess {
 			
 
 			// If this is a "big" contour
-			if (perimeter > paramMap.get("perimeterThreshold")) {
+			if (perimeter > paramMap.get("perimeterThreshold")) { //  && i == 379
 				
 				// draw white contours
 				Core.drawContours(output, contours, i, new Scalar(255, 255, 255, 255), 20);
 				
 				// find the bounding rectangle, which can be rotated
-				RotatedRect boundingRectangle = Imgproc.minAreaRect(approx);
-				Point[] boundingPoints = new Point[4];			
-				boundingRectangle.points(boundingPoints);
+				RotatedRect boundingRotatedRectangle = Imgproc.minAreaRect(approx);
+				Point[] boundingCornerPoints = new Point[4];			
+				boundingRotatedRectangle.points(boundingCornerPoints);
 				
 				// draw blue bounding box
 				List<MatOfPoint> boundingMatOfPointsList = new ArrayList<MatOfPoint>();
-				MatOfPoint boundingMatOfPoints = new MatOfPoint(boundingPoints);
+				MatOfPoint boundingMatOfPoints = new MatOfPoint(boundingCornerPoints);
 				boundingMatOfPointsList.add(boundingMatOfPoints);
 				Core.drawContours(output, boundingMatOfPointsList, -1, new Scalar(255, 0, 0, 255), 5);
 				
 				// get matrix of each bounding box
-				Mat thisCardBoundingBox = source.submat(boundingRectangle.boundingRect());
+				Mat thisCardBoundingBox = source.submat(boundingRotatedRectangle.boundingRect());
 
 
 				// put perspective transform in thisCard
 				Mat thisCard = new Mat(4, 1, CvType.CV_32FC2);
 				Size cardSize = new Size(200, 300);
-				thisCard.put(0,0, 0,0, 0,cardSize.width, cardSize.height,cardSize.width, cardSize.height,0);
+//				thisCard.put(0,0, 0,0, 0,cardSize.width, cardSize.height,cardSize.width, cardSize.height,0); // 1
+//				thisCard.put(0,0, cardSize.height,cardSize.width, 0,cardSize.width, 0,0, cardSize.height,0); // 2
+				thisCard.put(0,0, cardSize.width,cardSize.height, 0,cardSize.height, 0,0, cardSize.width,0); // 3
 				
-				Mat boundingMat2f = new Mat(new MatOfPoint2f(boundingPoints), new Rect(0, 0, 1, 4));
+				
+				// boundingMat2f is the same as boundingPoints, just in Mat instead of Point[]
+				// assuming 0,0 is upper left, point order goes se, sw, nw, ne  
+				// hmm, this is true for card 379, but it seems to be different for each card
+				Mat boundingMat2f = new Mat(new MatOfPoint2f(boundingCornerPoints), new Rect(0, 0, 1, 4));
 				Mat perspectiveTransform = Imgproc.getPerspectiveTransform(boundingMat2f, thisCard);
-
+				
+System.out.println(i);
+//System.out.println(" boundingCornerPoints: " + Arrays.toString(boundingCornerPoints));
+System.out.println(" boundingMat2f: " + boundingMat2f.dump());
+System.out.println(" thisCard: " + thisCard.dump());
+//System.out.println(" thisCardBoundingBox: " + thisCardBoundingBox.dump());
 			
 				// warp perspective and put in thisCardWarp not working
-				Mat thisCardWarp = new Mat(boundingMat2f.size(), CvType.CV_32FC2);
+				Mat thisCardWarp = new Mat(cardSize, CvType.CV_32FC2);
 				Imgproc.warpPerspective(source, thisCardWarp, perspectiveTransform, cardSize); // not working
 				
+				// Mike's attempt on the plane
+//				Mat thisCardWarp = thisCardBoundingBox.clone();
+//				Imgproc.warpPerspective(thisCardBoundingBox, thisCardWarp, perspectiveTransform, cardSize);
 	
 				
 				
