@@ -1,0 +1,136 @@
+
+card-margin = 10px;
+card-width = 100px;
+card-height = card-width*1.5;
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    margin: auto;
+    // justify-content: space-around;
+    height: 100%;
+}
+.card {
+
+    max-width: card-width;
+    max-height: card-height;
+    width: calc(25% - 20px);
+    height: calc(33% - 20px);
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: card-margin;
+
+    shape-margin-h = 14px;
+    shape-margin-v = 3px;
+    // shape-width = card-width - (shape-margin-h * 2);
+    shape-width = 72%;
+    shape-height = 25%;
+    shape-stroke = 8px; // can be up to 10px (after that it gets cut off)  http://stackoverflow.com/questions/7241393/can-you-control-how-an-svgs-stroke-width-is-drawn
+
+
+    .shape {
+    	display: inline-block;
+    	position: relative;
+
+    	flex: 0 0 auto;
+        width: shape-width;
+        height: shape-height;
+        margin-top: shape-margin-v;
+        margin-bottom: shape-margin-v;
+
+        svg {
+        }
+    }
+
+
+    // colors
+    &.red {
+        path, polygon {
+            stroke: svg-red;
+            stroke-width: shape-stroke;
+        }
+        &.solid {
+            path, polygon {
+                fill: svg-red;
+            }
+        }
+        &.striped {
+            path, polygon {
+                fill: url('#striped-red');
+            }
+        }
+        &.hollow {
+            path, polygon {
+                fill: transparent;
+            }
+        }
+
+
+    }
+    &.green {
+        path, polygon {
+            stroke: svg-green;
+            stroke-width: shape-stroke;
+        }
+        &.solid {
+            path, polygon {
+                fill: svg-green;
+            }
+        }
+        &.striped {
+            path, polygon {
+                fill: url('#striped-green');
+                
+            }
+        }
+        &.hollow {
+            path, polygon {
+                fill: transparent;
+            }
+        }
+    }
+    &.purple {
+        path, polygon {
+            stroke: svg-purple;
+            stroke-width: shape-stroke;
+        }
+        &.solid {
+            path, polygon {
+                fill: svg-purple;
+            }
+        }
+        &.striped {
+            path, polygon {
+                fill: url('#striped-purple');
+            }
+        }
+        &.hollow {
+            path, polygon {
+                fill: transparent;
+            }
+        }
+    }
+
+    
+    
+
+
+}
+
+// stripies.handlebars
+#striped-red rect {
+    fill: svg-red;
+}
+#striped-green rect {
+    fill: svg-green;
+}
+#striped-purple rect {
+    fill: svg-purple;
+}

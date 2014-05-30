@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="pill" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="200px" height="91.429px" viewBox="0 0 200 91.429" enable-background="new 0 0 200 91.429" xml:space="preserve">
-<path fill-rule="evenodd" clip-rule="evenodd" fill="#9B59B6" d="M154.286,91.429c25.247,0,45.714-20.467,45.714-45.714
-	S179.533,0,154.286,0H45.714C20.467,0,0,20.467,0,45.714s20.467,45.714,45.714,45.714H154.286z"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="210px"
+	 height="101.429px" viewBox="0 0 210 101.429" enable-background="new 0 0 210 101.429" xml:space="preserve">
+<g id="Layer_1" display="none">
+	<g display="inline">
+		<path fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#33CC33" stroke-miterlimit="10" d="M123.1,100.326
+			c-24.431-0.643-48.914,0.489-73.278-1.146C25.29,97.534,2.925,78.427,0.021,51.435C-2.049,32.19,12.083,11.096,30.575,5.612
+			C41.188,2.464,53,2.948,67.375,2.948c13.625,0,27.572,0,41.188,0c17.874,0,34.603-0.187,51.814,1.124
+			c34.373,0.893,49.873,18.643,50.396,44.781c0.028,24.611-5.664,35.123-22.939,45.027c-11.868,6.805-24.716,7.037-37.764,6.853
+			L123.1,100.326z"/>
+	</g>
+</g>
+<g id="Layer_2">
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#9B59B6" d="M159.286,96.429c25.247,0,45.714-20.467,45.714-45.714
+		S184.533,5,159.286,5H50.714C25.467,5,5,25.467,5,50.714s20.467,45.714,45.714,45.714H159.286z"/>
+</g>
+<g id="Layer_3">
+</g>
 </svg>

@@ -17,8 +17,10 @@ var AppController = function(){
 
     // this.socket = socket;
 
-    [0,1,2,3,4,5,6,7,8,9,10,11].forEach(function(i){
+    var cards = [];
 
+
+    while (cards.length < 12) {
         var cardModel = new CardModel({
             color: c.getRandomColor(),
             count: c.getRandomCount(),
@@ -26,15 +28,21 @@ var AppController = function(){
             shape: c.getRandomShape()
         });
 
+        var dup = cards.some(function(card){
+            if (card.isEqual(cardModel)){
+                return true;
+            }
+        });
 
+        if (!dup){
+            var cardView = new CardView({model: cardModel});
+            $('.cards').append(cardView.$el);
+            cards.push(cardModel);
+        } 
+        
+    };
 
-        var cardView = new CardView({model: cardModel});
-
-
-        $('.cards').append(cardView.$el);
-
-    });
-
+        
 
     
 

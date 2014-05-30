@@ -30,11 +30,19 @@ var CardModel = module.exports = Backbone.Model.extend({
 			shapes.push(rendered);
 		}
 
-		
-
 		this.set('shapes', shapes.join(''));
 
-		console.log(this);
+
+	},
+
+	isEqual: function(model){
+
+		return ["count", "color", "shade", "shape"].every(function(att){
+			if (model.get(att) !== this.get(att)){
+				return false;
+			}
+			return true;
+		}.bind(this));
 
 	}
 
