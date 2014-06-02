@@ -28,6 +28,7 @@ var AppController = function(){
             shape: c.getRandomShape()
         });
 
+        // is this card already in our collection?
         var dup = cards.some(function(card){
             if (card.isEqual(cardModel)){
                 return true;
@@ -37,6 +38,7 @@ var AppController = function(){
         if (!dup){
             var cardView = new CardView({model: cardModel});
             $('.cards').append(cardView.$el);
+            cardView.updateCSS();
             cards.push(cardModel);
         } 
         

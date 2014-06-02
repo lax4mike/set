@@ -18,8 +18,10 @@ var CardView = module.exports = Backbone.View.extend({
 
 		this.checkForStripies();
 
+		$(window).on("resize", this.updateCSS.bind(this));
 
 		this.setElement(this.template(this.model.attributes));
+
 		return this;
 	},
 
@@ -31,8 +33,12 @@ var CardView = module.exports = Backbone.View.extend({
 
 	},
 
-	render: function(){
+	updateCSS: function(){
+		var width = this.$el.width();
+		this.$el.css('height', width*1.5);
+	},
 
+	render: function(){
 
 	}
 	
