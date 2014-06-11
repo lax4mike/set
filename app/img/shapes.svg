@@ -15,18 +15,17 @@
       <path fill="" d="M154.286,91.429c25.247,0,45.714-20.467,45.714-45.714S179.533,0,154.286,0H45.714C20.467,0,0,20.467,0,45.714s20.467,45.714,45.714,45.714H154.286z"/>
   </g>
 
-
    <defs>
      <pattern id="striped-red" class="pattern" x="10" y="10" width="20" height="20" patternUnits="userSpaceOnUse" >
-      <rect x="0" y="0" width="10" height="200" style="stroke: none; fill: {{fill}}" />
+      <rect x="0" y="0" width="10" height="200" style="stroke: none; fill: #E74C3C" />
     </pattern>
 
      <pattern id="striped-purple" class="pattern" x="10" y="10" width="20" height="20" patternUnits="userSpaceOnUse" >
-      <rect x="0" y="0" width="10" height="200" style="stroke: none; fill: {{fill}}" />
+      <rect x="0" y="0" width="10" height="200" style="stroke: none;" fill="#9B59B6" />
     </pattern>
 
      <pattern id="striped-green" class="pattern" x="10" y="10" width="20" height="20" patternUnits="userSpaceOnUse" >
-      <rect x="0" y="0" width="10" height="200" style="stroke: none; fill: {{fill}}" />
+      <rect x="0" y="0" width="10" height="200" style="stroke: none; fill: #2ECC71" />
     </pattern>
    </defs>
 </svg>

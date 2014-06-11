@@ -2,14 +2,14 @@ card-margin = 10px;
 card-width = 100px;
 card-height = card-width*1.5;
 
-.cards {
+#cards {
     // display: flex;
     // flex-wrap: wrap;
     // align-content: flex-start;
     // align-items: center;
     // justify-content: space-around;
     margin: auto;
-    
+    max-width: ((card-width + (card-margin*2)) * 4); 
     height: 100%;
 }
 .card {
@@ -66,7 +66,7 @@ card-height = card-width*1.5;
         }
         &.striped {
             path, polygon {
-                fill: url('#striped-red');
+                fill: url('#striped-red');                
             }
         }
         &.hollow {
@@ -90,7 +90,7 @@ card-height = card-width*1.5;
         &.striped {
             path, polygon {
                 fill: url('#striped-green');
-                
+
             }
         }
         &.hollow {
@@ -111,7 +111,7 @@ card-height = card-width*1.5;
         }
         &.striped {
             path, polygon {
-                fill: url('#striped-purple');
+                fill: url('#striped-purple');                
             }
         }
         &.hollow {
@@ -121,10 +121,26 @@ card-height = card-width*1.5;
         }
     }
 
-    
-    
 
+}
 
+// http://stackoverflow.com/questions/15842224/firefox-svg-with-fillurlid-style-in-external-stylesheet-broken-inline-style
+@-moz-document url-prefix() {
+    .card.red.striped {
+        path, polygon{
+            fill: url('../img/shapes.svg#striped-red');
+        }
+    }
+    .card.green.striped {
+        path, polygon{
+            fill: url('../img/shapes.svg#striped-green');
+        }
+    }
+    .card.purple.striped {
+        path, polygon{
+            fill: url('../img/shapes.svg#striped-purple');
+        }
+    }
 }
 
 // stripies.handlebars
