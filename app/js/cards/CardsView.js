@@ -7,6 +7,7 @@ var CardsCollection = require('./CardsCollection.js');
 var CardView  = require('../card/CardView.js');
 
 
+var addRandomCardInterval = 0;
 
 var CardsView = module.exports = Backbone.View.extend({
 
@@ -24,45 +25,75 @@ var CardsView = module.exports = Backbone.View.extend({
 
         this.$el = $('<div></div>').attr('id', 'cards');
 
-        this.cards = new CardsCollection();
-        
-        this.cards.on('add', function(cardModel, b, c){
+        this.initCollection();
+
+        // listen for keyboard events
+        $(window).on('keydown', this.onKeypress.bind(this));
+
+    },
+
+    // make and add events to card collection 
+    initCollection: function(){
+
+        this.cards = new CardsCollection();     
+
+        // when a card is added to the collection, render the CardView
+        this.cards.on('add', function(cardModel){
             var cardView = new CardView({model: cardModel});
             this.$el.append(cardView.$el);
             $(window).resize(); // kind of a hack to force updateCSS
         }.bind(this));
 
-        this.addRandomCards();
+        // when a card model changes (ie. selected)
+        this.cards.on('change', function(cardModel){
+            
+            // if there are 3 cards selected, check to see if it's a set
+            if (this.cards.getSelected().length >= 3){
+                if (this.cards.isSelectedASet()) {
+                    console.log("set!");
+                }
+                else { 
+                    console.log('ERRR, not a set');
+                }
 
-        $(window).on('keypress', this.onKeypress.bind(this));
+                // deselect after some time
+                setTimeout(this.cards.deselectAll.bind(this.cards), 1000);
+            }
 
-        
+        }.bind(this));
+
+        // show 12 cards
+        this.addRandomCards(12);
 
     },
 
-    addRandomCard: function(){
-        if (this.cards.length < 12){
+    // add one cards at at time
+    addRandomCards: function(howMany) {
+
+        addRandomCardInterval = window.setInterval(function(){
+            this.addRandomCard(howMany);
+        }.bind(this), 50);
+
+    },
+
+    // after we get to 12 cards, stop
+    addRandomCard: function(howMany){
+
+        if (this.cards.length < howMany){
             this.cards.addRandomCard();
         } else {
-            clearTimeout(this.addRandomCardTimeout);
+            window.clearInterval(addRandomCardInterval);
+
+            var sets = this.cards.findSets();
         }
     },
 
-    addRandomCards: function() {
-
-        this.addRandomCardInterval = setInterval(this.addRandomCard.bind(this), 50);
-
-        this.cards.forEach(function(cardModel){
-            
-        }.bind(this));
-
-        var sets = this.cards.findSets();
-
-    },
-
-
-    onKeypress: function(){
-
+    // listen for esc
+    onKeypress: function(e){
+        // esc
+        if (e.keyCode == 27) { 
+            this.cards.deselectAll();
+        }
     }
 
 

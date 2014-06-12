@@ -5,63 +5,85 @@ Backbone.$ = $;
 
 var CardModel = require('./CardModel.js');
 
+var pill    = require('./templates/pill.handlebars');
+var diamond = require('./templates/diamond.handlebars');
+var nut     = require('./templates/nut.handlebars');
+var shape   = require('./templates/shape.handlebars');
+
 
 var CardView = module.exports = Backbone.View.extend({
 
-	model: CardModel,
+    model: CardModel,
 
-	template: require('./templates/card.handlebars'),
+    stripyId: 'stripies',
 
-	stripyId: 'stripies',
+    events: {
+        'click': 'toggleSelect'
+    },
 
-	events: {
-		'click': 'toggleSelect'
-	},
+    initialize: function() {
 
-	initialize: function() {
+        this.checkForStripies();
+        
+        this.initTemplate();
 
-		this.checkForStripies();
+        // if the model changes, update the view
+        this.listenTo(this.model, 'change:selected', this.updateSelect);
 
-		$(window).on("resize", this.updateCSS.bind(this));
+        $(window).on("resize", this.updateCSS.bind(this));
 
-		this.setElement(this.template(this.model.attributes));
+        return this;
+    },
 
-		return this;
-	},
+    initTemplate: function(){
 
-	checkForStripies: function(){
-		if (!$("#" + this.stripyId).length) {
-			var stripies = require('./templates/stripies.handlebars');
-			$("body").prepend(stripies({id: this.stripyId}));
-		}
-	},
+        // load pill, diamond, or nut template and put into shapes
+        var svgTemplate = require('./templates/' + this.model.get('shape') + '.handlebars')();
+        var renderedSvg = shape({svg: svgTemplate});
 
-	toggleSelect: function(){
-		
-		if (this.$el.hasClass('selected')) {
-			this.deselect();
-		} 
-		else {
-			this.select();
-		}
-	},
-	select: function(){
-		this.$el.addClass('selected');
-	},
-	deselect: function(){
-		this.$el.removeClass('selected');
-	},
+        var shapes = [];
+        for(var i = 0; i < this.model.get('count'); i++){
+            shapes.push(renderedSvg);
+        }
+
+        // extra values for card.handlebars
+        var extras = {'shapes': shapes.join('')};
+
+        var cardTemplate = require('./templates/card.handlebars');
+        this.setElement(cardTemplate(_.extend(this.model.attributes, extras)));
+
+    },
+
+    // this svg only needs to be in the DOM once.
+    // if it's already there (from a previous CardView), do nothing
+    checkForStripies: function(){
+        if (!$("#" + this.stripyId).length) {
+            var stripies = require('./templates/stripies.handlebars');
+            $("body").prepend(stripies({id: this.stripyId}));
+        }
+    },
+
+    // pass these events to the model, we're listening change:selected
+    toggleSelect: function(){
+        this.model.toggleSelect();
+    },
+    select: function(){
+        this.$el.addClass('selected');
+    },
+    deselect: function(){
+        this.$el.removeClass('selected');
+    },
 
 
-	// calculate the height based on the width so it keeps the aspect ratio
-	// can't really do with css... :(  
-	updateCSS: function(){
-		var width = this.$el.width();
-		this.$el.css('height', width*1.5);
-	},
+    // calculate the height based on the width so it keeps the aspect ratio
+    // can't really do with css... :(  
+    updateCSS: function(){
+        var width = this.$el.width();
+        this.$el.css('height', width*1.5);
+    },
 
-	render: function(){
-
-	}
-	
+    updateSelect: function(){
+        (this.model.get('selected')) ? this.select() : this.deselect();
+    }
+    
 });
