@@ -6,7 +6,6 @@ $(document).ready(function(){
 
 	var app = new AppController();	
 
-	app.showRandomCards();
 	
 });
 

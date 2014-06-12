@@ -1,6 +1,10 @@
+
+@import "elastic-in.styl";
+
 card-margin = 10px;
 card-width = 100px;
 card-height = card-width*1.5;
+
 
 #cards {
     // display: flex;
@@ -10,20 +14,25 @@ card-height = card-width*1.5;
     // justify-content: space-around;
     margin: auto;
     max-width: ((card-width + (card-margin*2)) * 4); 
-    height: 100%;
+    clear: both;
 }
 .card {
     float: left;
     max-width: card-width;
     max-height: card-height;
+    height: card-height;
     width: calc(25% - 20px);
-    height: calc(33% - 20px);
     border-radius: 6px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, .3);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    animation: elastic-in 1s both linear;
+    animation-iteration-count: 1;
+
+    transition: transform .2s ease-in-out;
 
     margin: card-margin;
 
@@ -38,6 +47,11 @@ card-height = card-width*1.5;
         clear: both;
     }
 
+    &.selected {
+        box-shadow: 0px 0px 3px 2px #3498db;
+        transform: scale(1.6);
+    }
+
     .shape {
     	display: inline-block;
     	position: relative;
@@ -48,8 +62,6 @@ card-height = card-width*1.5;
         margin-top: shape-margin-v;
         margin-bottom: shape-margin-v;
 
-        svg {
-        }
     }
 
 

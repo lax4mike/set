@@ -14,6 +14,10 @@ var CardView = module.exports = Backbone.View.extend({
 
 	stripyId: 'stripies',
 
+	events: {
+		'click': 'toggleSelect'
+	},
+
 	initialize: function() {
 
 		this.checkForStripies();
@@ -30,8 +34,24 @@ var CardView = module.exports = Backbone.View.extend({
 			var stripies = require('./templates/stripies.handlebars');
 			$("body").prepend(stripies({id: this.stripyId}));
 		}
-
 	},
+
+	toggleSelect: function(){
+		
+		if (this.$el.hasClass('selected')) {
+			this.deselect();
+		} 
+		else {
+			this.select();
+		}
+	},
+	select: function(){
+		this.$el.addClass('selected');
+	},
+	deselect: function(){
+		this.$el.removeClass('selected');
+	},
+
 
 	// calculate the height based on the width so it keeps the aspect ratio
 	// can't really do with css... :(  

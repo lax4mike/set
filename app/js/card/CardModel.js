@@ -20,7 +20,7 @@ var CardModel = module.exports = Backbone.Model.extend({
     setAttrs: ["count", "color", "shade", "shape"],
 
 
-	initialize: function(params){
+	initialize: function(attrs, options){
 
 		// load pill, diamond, or nut
 		var svg = require('./templates/' + this.get('shape') + '.handlebars')();
@@ -35,8 +35,12 @@ var CardModel = module.exports = Backbone.Model.extend({
 
 		this.set('shapes', shapes.join(''));
 
+		this.set('id', this.setAttrs.map(function(att){
+				return this.get(att);
+			}.bind(this)).join('-'));
 
 	},
+
 
 	isEqual: function(model){
 
@@ -86,9 +90,7 @@ var CardModel = module.exports = Backbone.Model.extend({
 
 
 		var card = this.setAttrs.map(function(att){
-
-			return (att == 'color') ? this.get('color').label : this.get(att);
-			
+			return this.get(att);	
 		}.bind(this));
 
 		return card.join(" ");

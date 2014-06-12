@@ -2,18 +2,9 @@ var CardParams = module.exports = {
 
     // Colors
     colors: {
-        RED : {
-            value: '#E74C3C',
-            label: 'red'
-        },
-        PURPLE : {
-            value: '#9B59B6',
-            label: 'purple'
-        },
-        GREEN : {
-            value: '#2ECC71',
-            label: 'green'
-        }
+        RED    : 'red',
+        PURPLE : 'purple',
+        GREEN  : 'green'
     },  
 
     // Counts
@@ -53,9 +44,6 @@ var CardParams = module.exports = {
     },
     getRandomShape: function(){
         return this.getRandom(this.shapes);
-    },
-
-
-    
+    }    
 
 };

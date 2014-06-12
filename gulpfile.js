@@ -74,8 +74,8 @@ gulp.task('js', function() {
     return gulp.src(paths.js.entry)
         .pipe(plumber()) // handle errors
         .pipe(browserify({
-            transform: [handlebars],
-            debug: true
+            debug: true,
+            transform: [handlebars]
         }))
         .pipe(gulp.dest(paths.assets + "/js/"))
         .pipe(reload(lr));
