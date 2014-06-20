@@ -11,6 +11,8 @@ var CardModel = module.exports = Backbone.Model.extend({
     // shade
     // shape
 
+    // position {top: 0, left: 0}
+
     initialize: function(attrs, options){
 
         this.set('id', CardParams.setAttrs.map(function(att){

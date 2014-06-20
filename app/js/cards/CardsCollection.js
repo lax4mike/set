@@ -12,6 +12,8 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
 
     model: CardModel,
 
+    sets: [],
+
     // add a random card that isn't a duplicate
     addRandomCard: function(){
 
@@ -44,7 +46,7 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
     findSets: function(){
 
         var i = 0;
-        var sets = nchoosek(this.models, 3, function(threeCards, pointers){
+        this.sets = nchoosek(this.models, 3, function(threeCards, pointers){
 
             if (this.isSet(threeCards)){
                 return threeCards;
@@ -54,9 +56,7 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
 
         }.bind(this));
 
-        console.log(sets.join("\n")); 
-
-        return sets;
+        return this.sets;
         
     },
 

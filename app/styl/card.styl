@@ -15,9 +15,18 @@ card-height = card-width*1.5;
     margin: auto;
     max-width: ((card-width + (card-margin*2)) * 4); 
     clear: both;
+    position: relative;
 }
 .card {
-    float: left; 
+    
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    // float: left; 
+
+
     background: white;
     
     max-width: card-width;
@@ -34,9 +43,9 @@ card-height = card-width*1.5;
     cursor: pointer;
 
     animation: elastic-in 1s both linear;
-    animation-iteration-count: 1;
+    // animation: fade-in 2s both linear;
 
-    transition: transform .2s ease-in-out;
+    transition: all .2s ease-in-out;
 
     margin: card-margin;
 
@@ -53,7 +62,8 @@ card-height = card-width*1.5;
 
     &.selected {
         box-shadow: 0px 0px 3px 2px #3498db;
-        transform: scale(1.08) rotateZ(5deg);
+        // animation: select-pop .3s both linear !important;
+        transform: scale(1.05);
     }
 
     .shape {

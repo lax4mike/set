@@ -7,19 +7,11 @@ var CardsCollection = require('./CardsCollection.js');
 var CardView  = require('../card/CardView.js');
 
 
-var addRandomCardInterval = 0;
-
 var CardsView = module.exports = Backbone.View.extend({
 
-    colors: [      // http://flatuicolors.com/
-        '#e74c3c', // alizarin
-        '#e67e22', // carrot
-        '#f1c40f', // sunflower
-        '#1abc9c', // turquoise
-        '#2ecc71', // emerald 
-        '#3498db', // peter river
-        '#9b59b6'  // amethyst
-    ],
+    gridColumns: 4,
+    cardMargin: 10, // same as margin in card.styl
+    // gridRows: 3,
 
     initialize: function(){
 
@@ -29,6 +21,7 @@ var CardsView = module.exports = Backbone.View.extend({
 
         // listen for keyboard events
         $(window).on('keydown', this.onKeypress.bind(this));
+        $(window).on("resize", this.layoutCollection.bind(this));
 
     },
 
@@ -40,6 +33,7 @@ var CardsView = module.exports = Backbone.View.extend({
         // when a card is added to the collection, render the CardView
         this.cards.on('add', function(cardModel){
             var cardView = new CardView({model: cardModel});
+            cardView.setCss(this.calculateCardPosition(this.cards.length-1)); 
             this.$el.append(cardView.$el);
             $(window).resize(); // kind of a hack to force updateCSS
         }.bind(this));
@@ -67,13 +61,38 @@ var CardsView = module.exports = Backbone.View.extend({
 
     },
 
+    layoutCollection: function(){
+
+        this.cards.each(function(card, i){
+
+            card.set({ position: this.calculateCardPosition(i) })
+
+        }.bind(this));
+
+    },
+
     // add one cards at at time
     addRandomCards: function(howMany) {
 
-        addRandomCardInterval = window.setInterval(function(){
+        this.addRandomCardInterval = window.setInterval(function(){
             this.addRandomCard(howMany);
         }.bind(this), 50);
 
+    },
+
+    calculateCardPosition: function(i){
+        
+        var column = i % this.gridColumns;
+        var row = Math.floor(i * (1/this.gridColumns));
+
+        var cardMargin = this.cardMargin * 2;
+        var cardOuter = this.$el.width() / this.gridColumns;
+        var cardInner = cardOuter - cardMargin;
+
+        return {
+            top: row * ((cardInner * 1.5) + cardMargin),
+            left: column * cardOuter
+        }
     },
 
     // after we get to 12 cards, stop
@@ -82,9 +101,11 @@ var CardsView = module.exports = Backbone.View.extend({
         if (this.cards.length < howMany){
             this.cards.addRandomCard();
         } else {
-            window.clearInterval(addRandomCardInterval);
+            window.clearInterval(this.addRandomCardInterval);
 
             var sets = this.cards.findSets();
+
+            console.log(sets.join("\n"));
         }
     },
 
