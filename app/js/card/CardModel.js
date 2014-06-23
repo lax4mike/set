@@ -11,7 +11,7 @@ var CardModel = module.exports = Backbone.Model.extend({
     // shade
     // shape
 
-    // position {top: 0, left: 0}
+    // css {top: 0, left: 0}
 
     initialize: function(attrs, options){
 
@@ -19,7 +19,23 @@ var CardModel = module.exports = Backbone.Model.extend({
                             return this.get(att);
                         }.bind(this)).join('-'));
 
+        this.cssHistory = [];
     },
+
+    setCss: function(params, save){
+
+        // save the history when we change the css
+        if (save){
+            this.cssHistory.push(params);
+        }
+        this.set('css', params);
+    },
+
+    revertCss: function(){
+        // revert and put these values back on
+        this.setCss(this.cssHistory.pop(), true);
+    },
+
 
     toggleSelect: function(){
         this.set({ selected: !this.get("selected") });
