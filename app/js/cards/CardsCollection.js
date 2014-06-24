@@ -15,7 +15,7 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
     sets: [],
 
     // add a random card that isn't a duplicate
-    addRandomCard: function(){
+    addRandomCard: function(index){
 
         var cardModel = new CardModel({
             count: CardParams.getRandomCount(),
@@ -32,10 +32,14 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
         });
 
         // if it's not a dup, add it, otherwise, try again (yeah, recursion!)
-        if (!dup){
+        if (dup){
+            return this.addRandomCard(index);
+        }
+
+        if (index != undefined){
+            this.add(cardModel, {at: index});
+        } else{
             this.push(cardModel);
-        } else {
-            return this.addRandomCard();
         }
 
         return cardModel;

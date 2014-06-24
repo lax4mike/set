@@ -31,6 +31,10 @@ var CardModel = module.exports = Backbone.Model.extend({
         this.set('css', params);
     },
 
+    animate: function(css, options){
+        this.trigger('animate', css, options);
+    },
+
     revertCss: function(){
         // revert and put these values back on
         this.setCss(this.cssHistory.pop(), true);

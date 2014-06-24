@@ -13,9 +13,10 @@ var CardsView = module.exports = Backbone.View.extend({
     gridRows: 3,
     cardMargin: 10, // same as margin in card.styl
 
+    howManyCards: 12,
+
     initialize: function(){
 
-        
         this.$el = $('<div></div>').attr('id', 'cards');
         
         this.initCollection();
@@ -36,7 +37,7 @@ var CardsView = module.exports = Backbone.View.extend({
         this.cards.on('add', function(cardModel){
             var cardView = new CardView({model: cardModel});
             // set position before we add it to the page
-            cardModel.setCss(this.caclculateCardCss(this.cards.length-1), true); 
+            cardModel.setCss(this.caclculateCardCss(this.cards.indexOf(cardModel)), true); 
             this.$el.append(cardView.$el);
         }.bind(this));
 
@@ -57,8 +58,8 @@ var CardsView = module.exports = Backbone.View.extend({
 
         }.bind(this));
 
-        // show 12 cards
-        this.addRandomCards(12);
+        // show cards
+        this.addRandomCards();
 
     },
 
@@ -127,11 +128,44 @@ var CardsView = module.exports = Backbone.View.extend({
     },
 
     // add one cards at at time
-    addRandomCards: function(howMany) {
+    addRandomCards: function() {
 
-        this.addRandomCardInterval = window.setInterval(function(){
-            this.addRandomCard(howMany);
+        var addRandomCardInterval = setInterval(function(){
+            if (this.cards.length < this.howManyCards){
+                this.addRandomCard();
+            } else {
+                window.clearInterval(addRandomCardInterval);
+            }
         }.bind(this), 50);
+
+    },
+
+    // after we get to 12 cards, stop
+    addRandomCard: function(index){
+
+        this.cards.addRandomCard(index);
+
+        if (this.cards.length >= this.howManyCards){
+
+            var sets = this.cards.findSets();
+
+            // if there aren't any sets, reshuffle
+            if (sets.length == 0){
+                console.log("no sets :( ");
+                while(this.cards.length > 0){
+                    this.cards.remove(this.cards.at(0));
+                }
+
+                this.addRandomCards();
+            }
+
+            this.cards.models.forEach(function(card, i){
+                console.log(i, card.toString());    
+            })
+            
+
+            console.log(sets.join("\n"));
+        }
 
     },
 
@@ -153,46 +187,93 @@ var CardsView = module.exports = Backbone.View.extend({
 
         // show a dim div
         this.showDim(function(){
-            // animate each card
+
+            var top = height/2 - (height/3/2);
+            var cardWidth = (width / 3) - (this.cardMargin*2);
+            var cardHeight = cardWidth * 1.5;
+
+            var indices = [];
+
+            // animate each card to the center
             threeCards.forEach(function(card, i){
 
                 var left = i * (width / 3) + this.cardMargin; // left + a margin 
-                var top = height/2 - (height/3/2);
-                var cardWidth = (width / 3) - (this.cardMargin*2);
-
-                card.setCss({ 
+        
+                card.animate({ 
                     width: cardWidth, 
-                    height: cardWidth * 1.5,
+                    height: cardHeight,
                     zIndex: 1000,
                     left: left, 
                     top: top
-                });
+                }, { duration: 250 });
 
-                // after some time, put the cards back
-                setTimeout(function(){
-                    card.revertCss();
-                    this.hideDim();
-                }.bind(this), 2000);
+                indices.push(this.cards.indexOf(card));
 
             }.bind(this));
+
+            // after some time, put the cards back or animate away
+            setTimeout(function(){
+                
+                var reshuffle = true;
+                if (reshuffle){
+
+                    this.hideDim();
+
+                    var removed = 0;
+
+                    // animate away
+                    var removeInterval = setInterval(function(){
+
+                        var model = threeCards.shift();
+
+                        model.animate({ top: (-1 * cardHeight - this.cardMargin*2) }, {
+                            duration: 150,
+                            complete: function(){
+                                // remove these cards after the animation for each is done
+                                this.cards.remove(model);
+                                removed++;
+
+                                if (removed >= 3) { 
+
+                                    // sort by number (not string), we need them to be in order when
+                                    // adding them back, or their position will be miscalculated
+                                    indices = indices.sort(function(a, b) { return a - b; });
+                                    
+                                    // add the cards back
+                                    var addRandomCardInterval = setInterval(function(){
+
+                                        var index = indices.shift();
+                                        this.addRandomCard(index);
+
+                                        if (indices.length <= 0) { 
+                                            clearInterval(addRandomCardInterval);
+                                            return;
+                                        }
+
+                                    }.bind(this), 300);
+                                }
+                            }.bind(this)
+                        });
+                        
+                        if (threeCards.length <= 0){
+                            clearInterval(removeInterval);
+                        }
+                    
+                    }.bind(this), 150);
+
+
+                }
+                else {
+                    card.revertCss();
+                    this.hideDim();
+                }
+
+            }.bind(this), 1000);
+
         }.bind(this));
 
         
 
-    },
-
-    // after we get to 12 cards, stop
-    addRandomCard: function(howMany){
-
-        if (this.cards.length < howMany){
-            this.cards.addRandomCard();
-        } else {
-            window.clearInterval(this.addRandomCardInterval);
-
-            var sets = this.cards.findSets();
-
-            console.log(sets.join("\n"));
-        }
     },
 
     // listen for esc

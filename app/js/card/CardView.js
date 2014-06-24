@@ -34,6 +34,9 @@ var CardView = module.exports = Backbone.View.extend({
         this.listenTo(this.model, 'change:css', function(model, css){
             this.setCss(css);
         });
+        this.listenTo(this.model, 'remove', this.goAway);
+
+        this.model.on('animate', this.animate.bind(this));
 
         // hack to deal with this https://bugzilla.mozilla.org/show_bug.cgi?id=666464
         // also see .card.select !important
@@ -90,6 +93,16 @@ var CardView = module.exports = Backbone.View.extend({
 
     updateSelect: function(){
         (this.model.get('selected')) ? this.select() : this.deselect();
+    },
+
+    animate: function(css, options){
+        this.$el.animate(css, options);
+    },
+
+    goAway: function(){
+
+        this.remove();
+
     }
     
 });
