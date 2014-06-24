@@ -35,12 +35,10 @@ var CardView = module.exports = Backbone.View.extend({
             this.setCss(css);
         });
 
-        // $(window).on("resize", this.updateHeight.bind(this));
-
         // hack to deal with this https://bugzilla.mozilla.org/show_bug.cgi?id=666464
         // also see .card.select !important
         setTimeout(function(){
-            this.$el.css({'animation': 'none'});
+            this.$el.removeClass('elastic');
         }.bind(this), 1000);
 
         return this;
