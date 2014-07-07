@@ -159,11 +159,6 @@ var CardsView = module.exports = Backbone.View.extend({
                 this.addRandomCards();
             }
 
-            this.cards.models.forEach(function(card, i){
-                console.log(i, card.toString());    
-            })
-            
-
             console.log(sets.join("\n"));
         }
 
@@ -217,7 +212,7 @@ var CardsView = module.exports = Backbone.View.extend({
                 var reshuffle = true;
                 if (reshuffle){
 
-                    this.hideDim();
+                    // this.hideDim();
 
                     var removed = 0;
 
@@ -229,11 +224,15 @@ var CardsView = module.exports = Backbone.View.extend({
                         model.animate({ top: (-1 * cardHeight - this.cardMargin*2) }, {
                             duration: 150,
                             complete: function(){
+
                                 // remove these cards after the animation for each is done
                                 this.cards.remove(model);
                                 removed++;
 
+                                // after all 3 cards are animated away
                                 if (removed >= 3) { 
+
+                                    this.hideDim();
 
                                     // sort by number (not string), we need them to be in order when
                                     // adding them back, or their position will be miscalculated
@@ -305,10 +304,10 @@ var CardsView = module.exports = Backbone.View.extend({
 
     },
 
-    hideDim: function(){
+    hideDim: function(callback){
 
         if (this.dim){
-            this.dim.fadeOut();
+            this.dim.fadeOut(400, callback);
         }
 
     }
