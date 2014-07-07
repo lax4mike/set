@@ -22,7 +22,7 @@ var paths = {
         watch: ['app/js/**/*.js', 'app/**/*.handlebars']
     },
     img: "app/img/**/*",
-    html: ["app/**/*.htm", "app/**/*.html", "app/favicon.ico"],
+    html: ["app/**/*.htm", "app/**/*.html", "app/favicon.ico", "app/favicon-32x32.png"],
     assets: "dist/public"
 }
 
