@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var attachFastClick = require('fastclick');
 
 $(document).ready(function(){
     
@@ -6,7 +7,7 @@ $(document).ready(function(){
 
     var app = new AppController();  
 
-    
+	attachFastClick(document.body);	    
 });
 
 
