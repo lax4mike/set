@@ -1,84 +1,76 @@
 // Include gulp and plugins
-var gulp        = require('gulp');
-var plumber     = require('gulp-plumber');
-var browserify  = require('gulp-browserify');
-var handlebars  = require('browserify-handlebars');
-var gulpConnect = require('gulp-connect');
-var lr          = require('tiny-lr')();
-var reload      = require('gulp-livereload');
-var prefix      = require('gulp-autoprefixer');
-var nodemon     = require('gulp-nodemon');
-var stylus      = require('gulp-stylus');
+var gulp        = require('gulp'),
+    plumber     = require('gulp-plumber'),
+    browserify  = require('gulp-browserify'),
+    handlebars  = require('browserify-handlebars'),
+    browserSync = require('browser-sync'),
+    prefix      = require('gulp-autoprefixer'),
+    stylus      = require('gulp-stylus');
   
 
 var paths = {
-    dist: "dist/",
+    dest: "build/",
     css: {
-        entry: "app/styl/app.styl",
+        src: "app/styl/app.styl",
         watch: "app/**/*.styl"
     },
     js: {
-        entry: "app/js/index.js",
+        src: "app/js/index.js",
         watch: ['app/js/**/*.js', 'app/**/*.handlebars']
     },
     img: "app/img/**/*",
     html: ["app/**/*.htm", "app/**/*.html", "app/favicon.ico", "app/favicon-32x32.png"],
-    assets: "dist/public"
-}
+    assets: "build/public"
+};
 
-// Move server code to dist
+
 gulp.task('server', function(){
-
-    // nodemon({ 
-    //     script: './dist/server.js', 
-    //     ext: 'js', 
-    //     ignore: ['ignored.js'] 
-    // })
-    // .on('change', function(){ 
-    // })
-    // .on('restart', function () {
-    // });
-
     return gulp.src("app/server/**/*")
-        .pipe(gulp.dest(paths.dist));
+        .pipe(gulp.dest(paths.dest));
 });
 
-// load our node server and set up live reload
+// load our node server and set up browsersync
 gulp.task('connect', ['server'], function(){
-    var server = require('./dist/server.js'); 
-    server.use(require('connect-livereload')()); 
-    lr.listen(35729);
+    
+    // start server
+    var server = require("./" + paths.dest + 'server.js'); 
+    
+    browserSync({
+        proxy: "localhost:3200", // proxy to server (runs on port 3200)
+        port: 8080,
+        open: false, // or  "external"
+        notify: false,
+        ghostMode: false,
+        files: [
+            paths.dest + "/**"
+        ]
+    });
 });
 
 // watch html files and update server when they change
 gulp.task('html', function() {
     return gulp.src(paths.html)
         .pipe(plumber()) // handle errors
-        .pipe(gulp.dest(paths.assets))
-        .pipe(reload(lr));
+        .pipe(gulp.dest(paths.assets));
 });
 
 
-// Compile Our css when a file changes
 gulp.task('css', function() {
-    return gulp.src(paths.css.entry)
+    return gulp.src(paths.css.src)
         .pipe(plumber()) // handle errors
         .pipe(stylus())
         .pipe(prefix(["last 1 version", "> 1%", "ie 8", "ie 7"], { cascade: true }))
-        .pipe(gulp.dest(paths.assets + "/css/"))
-        .pipe(reload(lr));
+        .pipe(gulp.dest(paths.assets + "/css/"));
 });
 
-// browserify our javascript
 gulp.task('js', function() {
-    return gulp.src(paths.js.entry)
+    return gulp.src(paths.js.src)
         .pipe(plumber()) // handle errors
         .pipe(browserify({
             debug: true,
             transform: [handlebars]
         }))
-        .pipe(gulp.dest(paths.assets + "/js/"))
-        .pipe(reload(lr));
+        .pipe(gulp.dest(paths.assets + "/js/"));
 });
 
 // image
@@ -90,7 +82,7 @@ gulp.task('img', function() {
 
 gulp.task('package.json', function(){
     return gulp.src("package.json")
-        .pipe(gulp.dest(paths.dist));
+        .pipe(gulp.dest(paths.dest));
 });
 
 
