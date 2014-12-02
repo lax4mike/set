@@ -45,15 +45,17 @@ var CardsView = module.exports = Backbone.View.extend({
         this.cards.on('change:selected', function(cardModel){
             
             // if there are 3 cards selected, check to see if it's a set
-            if (this.cards.getSelected().length >= 3){
+            if (this.cards.getSelected().length == 3){
                 if (this.cards.isSelectedASet()) {
                     this.showSet(this.cards.getSelected());
                 }
                 else { 
-                    console.log('ERRR, not a set');
-                     // deselect after some time
+                    // deselect after some time
                     setTimeout(this.cards.deselectAll.bind(this.cards), 1000);
                 }
+            } else if (this.cards.getSelected().length > 3){ 
+                // prevent a 4th card from being selected
+                cardModel.deselect();
             }
 
         }.bind(this));
