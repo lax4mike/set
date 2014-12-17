@@ -41,7 +41,7 @@ var CardView = module.exports = Backbone.View.extend({
         // hack to deal with this https://bugzilla.mozilla.org/show_bug.cgi?id=666464
         // also see .card.select !important
         setTimeout(function(){
-            this.$el.removeClass('elastic');
+            this.$el.removeClass('animate-in');
         }.bind(this), 1000);
 
         return this;
