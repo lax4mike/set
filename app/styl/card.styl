@@ -1,5 +1,5 @@
 
-@import "elastic-in.styl";
+@import "animate-in.styl";
 
 card-margin = 10px;
 card-width = 100px;
@@ -44,10 +44,14 @@ card-height = card-width*1.5;
     cursor: pointer;
 
     &.animate-in {
-        animation: rotateUp 1s both linear;
-        transform-origin: bottom center;
+        animation: bounceIn 1s both linear;
+        
+        // animation: elastic-in 1s both linear;
+
+        // animation: rotateUp 1s both linear;
+        // transform-origin: bottom center;
     }
-    
+
     // animation: fade-in 2s both linear;
 
     transition: transform .2s ease-in-out;
