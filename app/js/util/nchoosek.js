@@ -8,7 +8,7 @@ module.exports = function(n, k, callback){
     if (typeof callback !== 'function'){
         callback = function(combo){
             return combo;
-        }
+        };
     }
 
     var combos = [];
@@ -61,4 +61,4 @@ module.exports = function(n, k, callback){
     
     return combos;
 
-}
+};

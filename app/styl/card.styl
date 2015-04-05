@@ -6,7 +6,8 @@ card-width = 100px;
 card-height = card-width*1.5;
 
 
-#cards {
+#cards,
+.hint {
     // display: flex;
     // flex-wrap: wrap;
     // align-content: flex-start;
@@ -17,15 +18,11 @@ card-height = card-width*1.5;
     clear: both;
     position: relative;
 }
-.card {
     
-
+.card {
     position: absolute;
     top: 0;
     left: 0;
-
-    // float: left; 
-
 
     background: white;
     
@@ -76,7 +73,6 @@ card-height = card-width*1.5;
     }
 
     .shape {
-    	display: inline-block;
     	position: relative;
 
     	flex: 0 0 auto;
@@ -84,6 +80,16 @@ card-height = card-width*1.5;
         height: shape-height;
         margin-top: shape-margin-v;
         margin-bottom: shape-margin-v;
+        
+        svg {
+            // not sure why i need this, but when the card shrinks down (.card--mini), 
+            // the svg is offset from the top for some reason
+            position: absolute; 
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
 
     }
 

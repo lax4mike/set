@@ -6,8 +6,9 @@ var Backbone = require('backbone');
 // var host = window.location.hostname;
 // var socket = io.connect('//'+host+':3100'); 
 
-
-var CardsView = require('./cards/CardsView.js');
+var CardsCollection = require('./cards/CardsCollection.js');
+var CardsView       = require('./cards/CardsView.js');
+var HintView        = require('./hint/HintView.js');
 
 
 // var AppRouter = require('./AppRouter.js');
@@ -17,9 +18,20 @@ var AppController = function(){
 
     // this.socket = socket;
 
-    var cardsview = new CardsView();
+    // create cards collection
+    var cards = new CardsCollection();
+
+    var cardsview = new CardsView({
+        cards: cards
+    });
 
     $('body').append(cardsview.$el);
+
+
+    var hintview = new HintView({
+        cards: cards
+    });
+    $('body').append(hintview.$el);
 
 
     /**

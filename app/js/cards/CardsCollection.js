@@ -36,7 +36,7 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
             return this.addRandomCard(index);
         }
 
-        if (index != undefined){
+        if (index !== undefined){
             this.add(cardModel, {at: index});
         } else{
             this.push(cardModel);
