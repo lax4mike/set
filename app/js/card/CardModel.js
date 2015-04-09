@@ -42,7 +42,7 @@ var CardModel = module.exports = Backbone.Model.extend({
 
 
     toggleSelect: function(){
-        this.set({ selected: !this.get("selected") });
+        this.set({ selected: !this.get('selected') });
     },
 
     deselect: function(){
@@ -71,7 +71,7 @@ var CardModel = module.exports = Backbone.Model.extend({
             return this.get(att);   
         }.bind(this));
 
-        return card.join(" ");
+        return card.join(' ');
     }
 
 

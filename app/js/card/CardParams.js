@@ -28,7 +28,7 @@ var CardParams = module.exports = {
         DIAMOND : 'diamond'
     },
 
-    setAttrs: ["count", "color", "shade", "shape"],
+    setAttrs: ['count', 'color', 'shade', 'shape'],
 
     getRandom: function(obj){
         var keys = Object.keys(obj);

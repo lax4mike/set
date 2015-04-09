@@ -69,9 +69,9 @@ var CardView = module.exports = Backbone.View.extend({
     // this svg only needs to be in the DOM once.
     // if it's already there (from a previous CardView), do nothing
     checkForStripies: function(){
-        if (!$("#" + this.stripyId).length) {
+        if (!$('#' + this.stripyId).length) {
             var stripies = require('./templates/stripies.handlebars');
-            $("body").prepend(stripies({id: this.stripyId}));
+            $('body').prepend(stripies({id: this.stripyId}));
         }
     },
 
@@ -79,9 +79,11 @@ var CardView = module.exports = Backbone.View.extend({
     toggleSelect: function(){
         this.model.toggleSelect();
     },
+
     select: function(){
         this.$el.addClass('selected');
     },
+
     deselect: function(){
         this.$el.removeClass('selected');
     },

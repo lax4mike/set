@@ -26,7 +26,7 @@ var CardsView = module.exports = Backbone.View.extend({
 
         // listen for keyboard events
         $(window).on('keydown', this.onKeypress.bind(this));
-        $(window).on("resize", this.onResize.bind(this));
+        $(window).on('resize', this.onResize.bind(this));
 
     },
 
@@ -153,7 +153,7 @@ var CardsView = module.exports = Backbone.View.extend({
 
             // if there aren't any sets, reshuffle
             if (sets.length === 0){
-                console.log("no sets :( ");
+                console.log('no sets :( ');
 
                 // remove all cards from card collection    
                 while(this.cards.length > 0){
@@ -163,15 +163,15 @@ var CardsView = module.exports = Backbone.View.extend({
                 this.addRandomCards();
             }
 
-            Backbone.trigger("cardsDealt");
-            console.log(sets.join("\n"));
+            Backbone.trigger('cardsDealt');
+            console.log(sets.join('\n'));
         }
 
     },
 
     showSet: function(threeCards){
 
-        Backbone.trigger("setFound");
+        Backbone.trigger('setFound');
 
         this.cards.deselectAll();
 
@@ -285,8 +285,8 @@ var CardsView = module.exports = Backbone.View.extend({
         if (!this.dim){
             this.dim = $('<div></div>').css({
                 zIndex: 500,
-                background: "rgba(255,255,255,0.9)",
-                position: "fixed",
+                background: 'rgba(255,255,255,0.9)',
+                position: 'fixed',
                 top: 0,
                 right: 0,
                 bottom: 0,

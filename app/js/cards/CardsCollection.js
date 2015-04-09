@@ -74,7 +74,7 @@ var CardsCollection = module.exports = Backbone.Collection.extend({
     isSet: function(cards){
 
         if (cards.length != 3){
-            console.error("isSet has to be given 3 cards");
+            console.error('isSet has to be given 3 cards');
         }
 
         // for each attribute (color, count, shade, shape)
