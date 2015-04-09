@@ -24,14 +24,14 @@ var HintView = module.exports = Backbone.View.extend({
         this.$el = $('<div></div>').attr('class', 'hint');
 
         // if the user has found a set, remove the hint
-        Backbone.on("setFound", function(){
+        Backbone.on('setFound', function(){
             this.$el.fadeOut(function(){
                 this.$el.empty();
             }.bind(this));
         }.bind(this));
 
         // if the cards are finished dealing, show hint
-        Backbone.on("cardsDealt", function(){
+        Backbone.on('cardsDealt', function(){
             this.renderHintLink();
         }.bind(this));
     },
@@ -60,23 +60,28 @@ var HintView = module.exports = Backbone.View.extend({
         if (e){ e.preventDefault(); }
 
         var sets = this.cards.findSets();
-        
-        this.$el.html(setCountTemplate({
-            setCountText: this.getCountText(sets)
-        }));
 
+        this.$el.fadeOut(function(){
+            this.$el.html(setCountTemplate({
+                setCountText: this.getCountText(sets)
+            }));
+            this.$el.fadeIn();
+        }.bind(this));    
     },
 
     renderSets: function(e){
 
         if (e){ e.preventDefault(); }
 
+        // make mini cards
         var sets = this.cards.findSets().map(function(set){
-            // return new CardView()   
+            
             return set.map(function(card){
                 // make sure we clone the model so it doesn't interfer with the real card
                 var cv = new CardView({model: card.clone()});
                 cv.$el.addClass('card--mini');
+
+                // return html string
                 return cv.$el.prop('outerHTML');
             });
         });

@@ -1,8 +1,11 @@
-<div>{{setCountText}}</div>
+<div class="hint__title">{{setCountText}}</div>
+
+<div class="hint__sets">
 {{#each sets}}
-    <div class="hint__set-holder">
+    <div class="hint__set">
     {{#each this}}
-		{{{this}}}
+        {{{this}}}
     {{/each}}
     </div>
 {{/each}}
+</div>
